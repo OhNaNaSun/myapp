@@ -11,7 +11,7 @@ function Todo(content, show){
     this.content = content;
     this.show = show;
 }
-Todo.prototype.save = function(){
+Todo.prototype.save = function(todo, callback){
     var todo = {
         content: todo.content,
         show: todo.show
