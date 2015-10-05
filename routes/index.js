@@ -35,5 +35,10 @@ router.get('/delete', function(req, res){
         res.end();
     })
 })
-
+router.get('/all', function(req, res){
+    var todo = new Todo();
+    todo.getAll(function(err, todoBack){
+        res.render('all', {allContent: todoBack.reverse()})
+    })
+})
 module.exports = router;
