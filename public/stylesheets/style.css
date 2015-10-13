@@ -1,8 +1,17 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.sidebar{
+    width: 305px;
+    float: right;
+    text-align: right;
 }
-
-a {
-  color: #00B7FF;
+.content{
+    margin-right: 310px;
+}
+.am-u-lg-6{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    float: none;
+}
+.loginIn,.loginUp{
+    margin-right: 20px;
 }
