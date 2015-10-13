@@ -62,4 +62,13 @@ router.post('/ucenter', function(req, res){
         });
     })(query_doc)
 })
+<<<<<<< HEAD
+=======
+router.get('/all', function(req, res){
+    var todo = new Todo();
+    todo.getAll(function(err, todoBack){
+        res.render('all', {allContent: todoBack.reverse()})
+    })
+})
+>>>>>>> 26454f3949818ffb63eaedb67f76a597fef68b17
 module.exports = router;
