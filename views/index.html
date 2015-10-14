@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>XXX</title>
+    <title><%= title %></title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <link rel="icon" type="image/png" href="assets/i/favicon.png">
@@ -33,9 +33,22 @@
 <div class="main">
     <nav class="sidebar">
         <a href="/" class="">主页</a>
+        <%if (user){%>
+        <a href="publish" class="login">发表</a>
+        <a href="logout" class="reg">登出</a>
+        <%} else{%>
         <a href="login" class="login">登录</a>
         <a href="reg" class="reg">注册</a>
+        <%}%>
     </nav>
+    <article>
+          <% if (success) { %>
+          <div><%= success %></div>
+          <% } %>
+          <% if (error) { %>
+          <div><%= error %> </div>
+          <% } %>
+    </article>
     <div class="content">
         <ul id="contentUl" class="am-list am-list-static am-list-border am-list-striped">
 

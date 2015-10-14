@@ -32,7 +32,13 @@ router.get('/delete', function(req, res){
     })
 });
 router.get('/', function(req, res){
-    res.render('index');
+    console.log(req.flash('success'));//[]
+    res.render('index', {
+        title: '主页',
+        user: req.session.user,
+        success: req.flash('success').toString(),
+        error: req.flash('error').toString()
+    });
 });
 router.get('/login', function(req, res){
     res.render('login', {title: 'login'});
@@ -71,7 +77,6 @@ router.post('/reg', function(req, res){
         password = req.body.password,
         password_re = req.body.password_repeat;
     if(password != password_re){
-        console.log(password + "-----" + password_re);
         req.flash('error', '两次输入的密码不一致！');
         return res.redirect('/reg');//返回注册页
     }
