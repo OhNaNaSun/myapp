@@ -6,11 +6,15 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
+var settings = require('./settings');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+var flash = require('connect-flash');
+var ejs = require('ejs');
 var users = require('./routes/users');
 
 var app = express();//创建一个express应用程序
-//sjr
-var ejs = require('ejs');
+
 app.engine('html', ejs.__express);//注册模板引擎的callback来处理扩展名为ext的文件
 app.set('view engine', 'html');//将设置项name的值设置为value
 //sjr
@@ -24,12 +28,21 @@ app.set('view engine', 'jade');*/
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));//使用”./public”来管理静态文件，使用”express.static()”中间件
-
+app.use(cookieParser());
+app.use(session({
+    secret: settings.cookieSecret,
+    key: settings.db,//cookie name
+    cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
+    store: new MongoStore({
+        db: settings.db,
+        host: settings.host,
+        port: settings.port
+    })
+}));
+app.use(flash());
 app.use('/', routes);//s--设置路由
 app.use('/users', users);
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -37,10 +50,6 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-// error handlers
-
-// development error handler
-// will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
@@ -51,8 +60,6 @@ if (app.get('env') === 'development') {
   });
 }
 
-// production error handler
-// no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {

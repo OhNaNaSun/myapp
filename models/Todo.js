@@ -1,14 +1,15 @@
-var mongodb = require('./mongodb.js');
-var Schema = mongodb.mongoose.Schema;//Schema:一种以文件形式存储的数据库模型骨架，不具备数据库的操作能力
+var mongodb = require('./db.js');
+//var Schema = mongodb.mongoose.Schema;Schema:一种以文件形式存储的数据库模型骨架，不具备数据库的操作能力
 /*Schema  ：  一种以文件形式存储的数据库模型骨架，不具备数据库的操作能力
 Model   ：  由Schema发布生成的模型，具有抽象属性和行为的数据库操作对
 Entity  ：  由Model创建的实体，他的操作也会影响数据库*/
-var TodoSchema = new Schema({
+/*var TodoSchema = new Schema({
     content: String,//定义属性
     show: Boolean
 })
 
-var TodoModel = mongodb.mongoose.model("Todo", TodoSchema);//Model:由Schema发布生成的模型，具有抽象属性和行为的数据库操作对
+var TodoModel = mongodb.mongoose.model("Todo", TodoSchema);*/
+//Model:由Schema发布生成的模型，具有抽象属性和行为的数据库操作对
 //新建类
 function Todo(content, show){
     this.content = content;

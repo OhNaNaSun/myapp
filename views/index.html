@@ -31,15 +31,14 @@
     </h1>
 </header>
 <div class="main">
-    <div class="sidebar">
-        <a href="login" class="loginIn">登录</a>
-        <a href="logup" class="loginUp">注册</a>
-    </div>
+    <nav class="sidebar">
+        <a href="/" class="">主页</a>
+        <a href="login" class="login">登录</a>
+        <a href="reg" class="reg">注册</a>
+    </nav>
     <div class="content">
         <ul id="contentUl" class="am-list am-list-static am-list-border am-list-striped">
-            <% allContent.forEach(function(todo, index){ %>
-            <li ><%= todo.content %> <button onclick="deleteContent('<%= todo.id %>', this)" style="float:right;" type="button" class="am-close">&times;</button></li>
-            <% }) %>
+
         </ul>
 
         <div class="am-u-lg-6">
@@ -53,7 +52,7 @@
     </div>
 </div>
 
-<script>
+<!--<script>
     var xmlhttp;
     if (window.XMLHttpRequest) {
         // code for IE7+, Firefox, Chrome, Opera, Safari
@@ -82,7 +81,7 @@
         if (xmlhttp.status == 200) {
         }
     }
-</script>
+</script>-->
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/amazeui.min.js"></script>
 </body>

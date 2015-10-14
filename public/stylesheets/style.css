@@ -12,6 +12,6 @@
     padding: 0;
     float: none;
 }
-.loginIn,.loginUp{
+.sidebar a{
     margin-right: 20px;
 }

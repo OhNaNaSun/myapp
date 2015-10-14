@@ -1,14 +1,9 @@
 var express = require('express');
+var crypto = require('crypto');
 var Todo = require("../models/Todo.js");
 var User = require("../models/user.js");
 var router = express.Router();//这个和app.js的router啥区别？app.use('/',routes)
-router.get('/', function(req, res){
-    var todo = new Todo();
-    todo.get(function(err, todoBack){//todoBack-todos
-        console.log(todoBack);//[]
-        res.render('index', {allContent: todoBack.reverse()})//pass a local variable to the view
-    })
-});
+
 router.get('/add', function(req, res){
     //console.log(req.query);//{content:"test123"}
     var content = req.query.content;//test123
@@ -36,11 +31,53 @@ router.get('/delete', function(req, res){
         res.end();
     })
 });
+router.get('/', function(req, res){
+    res.render('index');
+});
 router.get('/login', function(req, res){
     res.render('login', {title: 'login'});
 });
-router.get('/logup', function(req, res){
-    res.render('login', {title: 'logup'});
+//进入注册页
+router.get('/reg', function(req, res){
+    res.render('reg', {title: 'reg'});
+});
+//注册请求
+router.post('/reg', function(req, res){
+    var username = req.body.username,
+        password = req.body.password,
+        password_re = req.body.password_repeat;
+    if(password != password_re){
+        console.log(password + "-----" + password_re);
+        req.flash('error', '两次输入的密码不一致！');
+        return res.redirect('/reg');//返回注册页
+    }
+    var md5 = crypto.createHash('md5');
+    var password = md5.update(req.body.password).digest('hex');
+    var newUser = new User({
+        username: username,
+        password: password,
+        email: req.body.email
+    });
+    User.get(username, function(err, user){
+        if(err){
+            req.flash('error', err);
+            return res.redirect('/reg');//返回的页面
+        };
+        if(user){
+            req.flash('error', '该用户名被注册！');
+            return res.redirect('/reg');//返回的页面
+        }
+        newUser.save(newUser, function(err, user){
+            //user user????
+             if(err){
+                 req.flash('error', err);
+                 return res.redirect('/reg');//注册失败返回主册页
+             }
+             req.session.user = user;
+             req.flash('success', '注册成功！');
+             res.redirect('/');
+        });
+    })
 });
 router.post('/ucenter', function(req, res){
     var query_doc = {username: req.body.username, password: req.body.password};
@@ -62,13 +99,10 @@ router.post('/ucenter', function(req, res){
         });
     })(query_doc)
 })
-<<<<<<< HEAD
-=======
 router.get('/all', function(req, res){
     var todo = new Todo();
     todo.getAll(function(err, todoBack){
-        res.render('all', {allContent: todoBack.reverse()})
+        res.render('all', {allContent: todoBack.reverse()});
     })
 })
->>>>>>> 26454f3949818ffb63eaedb67f76a597fef68b17
 module.exports = router;
