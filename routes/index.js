@@ -37,6 +37,30 @@ router.get('/', function(req, res){
 router.get('/login', function(req, res){
     res.render('login', {title: 'login'});
 });
+router.post('/login', function(req, res){
+    var username = req.body.username;
+    //var password = req.body.password;
+    var md5 = crypto.createHash('md5');
+    var password = md5.update(req.body.password).digest('hex');
+    User.get(username, function(err, user) {
+        if (err) {
+            req.flash('error', err);
+            return res.redirect('/login');//返回的页面
+        };
+        if(!user) {
+            req.flash('error', '该用户不存在！');
+            return res.redirect('/login');//返回的页面
+        }
+        if(password != user.password){
+            req.flash('error', '密码错误！');
+            return res.redirect('/login');//返回的页面
+        }
+        //用户名密码都匹配后，将用户信息存入 session
+        req.session.user = user;
+        req.flash('success', '登陆成功!');
+        res.redirect('/');//登陆成功后跳转到主页
+    })
+});
 //进入注册页
 router.get('/reg', function(req, res){
     res.render('reg', {title: 'reg'});
@@ -67,7 +91,11 @@ router.post('/reg', function(req, res){
             req.flash('error', '该用户名被注册！');
             return res.redirect('/reg');//返回的页面
         }
-        newUser.save(newUser, function(err, user){
+        newUser.save({
+            username: username,
+            password: password,
+            email: req.body.email
+        }, function(err, userBack){
             //user user????
              if(err){
                  req.flash('error', err);

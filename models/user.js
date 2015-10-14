@@ -16,6 +16,7 @@ function User(username, password, email){
 };
 User.prototype.save = function(user, callback){
     //要存入数据库的用户文档
+    //为什么这么多user
     var user = {
         username: user.username,
         password: user.password,
