@@ -4,11 +4,12 @@ var Todo = require("../models/Todo.js");
 var User = require("../models/user.js");
 var router = express.Router();//这个和app.js的router啥区别？app.use('/',routes)
 
-router.get('/add', function(req, res){
+router.get('/addTodo', function(req, res){
     //console.log(req.query);//{content:"test123"}
     var content = req.query.content;//test123
-    var todo = new Todo(content, true);
-    todo.save(todo, function(err, todoBack){
+    var username = req.session.user.username;
+    var todo = new Todo(username, content, true);
+    todo.save(function(err, todoBack){
         if(err){
             res.writeHead(500)
         }else{
@@ -40,12 +41,49 @@ router.get('/', function(req, res){
         error: req.flash('error').toString()
     });
 });
+//如果是已登录状态，则返回前一页
+function checkLogin(req, res, next){
+    if(req.session.user){
+        req.flash('error', '您已登录！');
+        res.redirect('back');
+    };
+    next();
+};
+//如果未登录进行发表，登出等。返到登录页
+function checkNotLogin(req, res, next){
+    if(!req.session.user){
+        req.flash('error', '请登录！');
+        res.redirect('/login');
+    };
+    next();//通过 next() 转移控制权
+};
+router.get('/login', checkLogin);//路由中间件
 router.get('/login', function(req, res){
-    res.render('login', {title: 'login'});
+    res.render('login', {
+        title: '登录',
+        user: req.session.user,
+        success: req.flash('success').toString(),
+        error: req.flash('error').toString()
+    });
+});
+router.get('/logout', checkNotLogin);
+router.get('/logout', function(req, res){
+    req.session.user = null;
+    req.flash('success', '登出成功！');
+    res.redirect('/');
+});
+router.get('/todo', function(req, res){
+    //Todo
+    var todo = new Todo();
+    //res.render('todo', {title: '事项', todos: todos});
+    todo.getAll(function(err, todos){
+        if(err){
+        }
+        res.render('todo', {title: '事项', todos: todos});
+    })
 });
 router.post('/login', function(req, res){
     var username = req.body.username;
-    //var password = req.body.password;
     var md5 = crypto.createHash('md5');
     var password = md5.update(req.body.password).digest('hex');
     User.get(username, function(err, user) {
@@ -67,6 +105,7 @@ router.post('/login', function(req, res){
         res.redirect('/');//登陆成功后跳转到主页
     })
 });
+router.get('/reg', checkLogin);
 //进入注册页
 router.get('/reg', function(req, res){
     res.render('reg', {title: 'reg'});
@@ -96,11 +135,8 @@ router.post('/reg', function(req, res){
             req.flash('error', '该用户名被注册！');
             return res.redirect('/reg');//返回的页面
         }
-        newUser.save({
-            username: username,
-            password: password,
-            email: req.body.email
-        }, function(err, userBack){
+        newUser.save(function(err, userBack){
+            //不能User.save????
             //user user????
              if(err){
                  req.flash('error', err);

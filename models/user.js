@@ -14,13 +14,13 @@ function User(username, password, email){
     this.password = password;
     this.email = email;
 };
-User.prototype.save = function(user, callback){
+User.prototype.save = function(callback){
     //要存入数据库的用户文档
     //为什么这么多user
     var user = {
-        username: user.username,
-        password: user.password,
-        email: user.email
+        username: this.username,
+        password: this.password,
+        email: this.email
     };
     //打开数据库
     mongodb.open(function(err, db){
@@ -35,12 +35,12 @@ User.prototype.save = function(user, callback){
             };
             //将用户数据插入 users 集合
             collection.insert(user, {safe: true},function(err, user){
-                    mongodb.close();
-                    if(err){
-                        return callback(err);
-                    }
-                    callback(null, user[0]);//成功！err 为 null，并返回存储后的用户文档
-                })
+                mongodb.close();
+                if(err){
+                    return callback(err);
+                }
+                callback(null, user[0]);//成功！err 为 null，并返回存储后的用户文档
+            })
         })
     });
 };
@@ -62,7 +62,7 @@ User.get = function(name, callback){
                 callback(null, user);
             })
         })
-    })
-}
+    });
+};
 //User.userModel = userModel;
 module.exports = User;

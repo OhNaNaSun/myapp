@@ -7,49 +7,112 @@ Entity  ：  由Model创建的实体，他的操作也会影响数据库*/
     content: String,//定义属性
     show: Boolean
 })
-
 var TodoModel = mongodb.mongoose.model("Todo", TodoSchema);*/
 //Model:由Schema发布生成的模型，具有抽象属性和行为的数据库操作对
 //新建类
 function Todo(content, show){
+    this.username = username,
     this.content = content;
     this.show = show;
 }
-Todo.prototype.save = function(todo, callback){
+Todo.prototype.save = function(callback){
     var todo = {
-        content: todo.content,
-        show: todo.show
+        username: this.username,
+        content: this.content,
+        show: this.show
     };
-    var newTodo = new TodoModel(todo);
-    newTodo.save(function(err, todo){//模型的save方法？find方法
+    //打开数据库
+    mongodb.open(function(err, db){
         if(err){
-            return callback(err)
-        }
-        callback(null, todo)
+            return callback(err);
+        };
+        //读取 users 集合
+        db.collection('todos', function(err, collection){
+            if(err){
+                db.close();
+                return callback(err);
+            };
+            //将用户数据插入 users 集合
+            collection.insert(todo, {show: true},function(err, todo){
+                mongodb.close();
+                if(err){
+                    return callback(err);
+                }
+                callback(null, todo[0]);//成功！err 为 null，并返回存储后的用户文档
+            })
+        })
     });
-}
-Todo.prototype.get = function(callback){
-    TodoModel.find({'show':true}, function(err, todos){
+};
+Todo.prototype.get = function(name, callback){
+    /*TodoModel.find({'show':true}, function(err, todos){
       if(err){
           return callback(err);
       }
       callback(null, todos);
-    })
-}
-Todo.prototype.getAll = function(callback){
-    TodoModel.find(function(err, todos){
+    })*/
+    mongodb.open(function(err, db){
         if(err){
-            return callback(err);
-        }
-        callback(null, todos);
-    })
-}
+            return callback(err)
+        };
+        db.collection('todos', function(err, collection){
+            if(err){
+                db.close();
+                return callback(err);
+            };
+            collection.findOne({username: name, 'show':true}, function(err, todo){
+                db.close();
+                if(err){
+                    return callback(err);
+                }
+                callback(null, todo);
+            })
+        })
+    });
+};
+Todo.prototype.getAll = function(callback){
+    mongodb.open(function(err, db){
+        if(err){
+            return callback(err)
+        };
+        db.collection('todos', function(err, collection){
+            if(err){
+                db.close();
+                return callback(err);d
+            };
+            collection.find({'show':true}, function(err, todo){
+                db.close();
+                if(err){
+                    return callback(err);
+                }
+                callback(null, todo);
+            })
+        })
+    });
+};
 Todo.prototype.delete = function(id, callback){
-    TodoModel.update({'_id': id}, {'show': false}, function(err){
+   /* TodoModel.update({'_id': id}, {'show': false}, function(err){
         if (err) {
             return callback(err);
         }
         callback(null);
+    });*/
+    mongodb.open(function(err, db){
+        if(err){
+            return callback(err)
+        };
+        db.collection('todos', function(err, collection){
+            if(err){
+                db.close();
+                return callback(err);
+            };
+            collection.update({'_id': id, 'show': false}, function(err, todo){
+                db.close();
+                if(err){
+                    return callback(err);
+                }
+                callback(null, todo);
+            })
+        })
     });
-}
+};
 module.exports = Todo;

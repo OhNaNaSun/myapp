@@ -34,8 +34,8 @@
     <nav class="sidebar">
         <a href="/" class="">主页</a>
         <%if (user){%>
-        <a href="publish" class="login">发表</a>
-        <a href="logout" class="reg">登出</a>
+        <a href="todo" class="todo">发表</a>
+        <a href="logout" class="logout">登出</a>
         <%} else{%>
         <a href="login" class="login">登录</a>
         <a href="reg" class="reg">注册</a>
@@ -49,52 +49,7 @@
           <div><%= error %> </div>
           <% } %>
     </article>
-    <div class="content">
-        <ul id="contentUl" class="am-list am-list-static am-list-border am-list-striped">
-
-        </ul>
-
-        <div class="am-u-lg-6">
-            <div class="am-input-group">
-                <input id="content" type="text" class="am-form-field">
-    <span class="am-input-group-btn">
-      <button class="am-btn am-btn-default" type="button" onclick="addContent()">添加</button>
-    </span>
-            </div>
-        </div>
-    </div>
 </div>
-
-<!--<script>
-    var xmlhttp;
-    if (window.XMLHttpRequest) {
-        // code for IE7+, Firefox, Chrome, Opera, Safari
-        xmlhttp = new XMLHttpRequest();
-    } else {
-        // code for IE6, IE5
-        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    function addContent() { // var content = document.getElementById("content").value;
-        var content = $("#content").val();
-        xmlhttp.open("GET","/add?content="+content,false);
-        xmlhttp.send();
-        if (xmlhttp.status == 200) {
-            var contentUl=document.getElementById('contentUl');
-            var li = document.createElement("li");
-            var id = "'" + xmlhttp.responseText + "'";
-            var onclickStr = '<button onclick="deleteContent(' + id + ', this)" style="float:right;" type="button" class="am-close">×</button>'
-            li.innerHTML = content + onclickStr;
-            contentUl.insertBefore(li,contentUl.childNodes[0]); $("#content").val("");
-        }
-    }
-    function deleteContent(id, obj) {
-        $(obj).parent().remove();
-        xmlhttp.open("GET","/delete?id="+id,true);
-        xmlhttp.send();
-        if (xmlhttp.status == 200) {
-        }
-    }
-</script>-->
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/amazeui.min.js"></script>
 </body>
