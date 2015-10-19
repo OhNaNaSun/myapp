@@ -10,17 +10,17 @@ Entity  ：  由Model创建的实体，他的操作也会影响数据库*/
 var TodoModel = mongodb.mongoose.model("Todo", TodoSchema);*/
 //Model:由Schema发布生成的模型，具有抽象属性和行为的数据库操作对
 //新建类
-function Todo(content, show){
-    this.username = username,
-    this.content = content;
+function Todo(username, contents, show){
+    this.username = username;
     this.show = show;
 }
-Todo.prototype.save = function(callback){
+Todo.prototype.save = function(content, callback){
     var todo = {
         username: this.username,
-        content: this.content,
+        contents: this.contents,
         show: this.show
     };
+    //console.log(todo);
     //打开数据库
     mongodb.open(function(err, db){
         if(err){
@@ -32,24 +32,37 @@ Todo.prototype.save = function(callback){
                 db.close();
                 return callback(err);
             };
-            //将用户数据插入 users 集合
-            collection.insert(todo, {show: true},function(err, todo){
-                mongodb.close();
+            collection.findOne({username: name, 'show':true}, function(err, todos){
                 if(err){
                     return callback(err);
                 }
-                callback(null, todo[0]);//成功！err 为 null，并返回存储后的用户文档
+                if(todos){
+                    var oldContents = todos.contents;
+                    collection.update({content: oldContents.push(content)}, function(err, todo){
+                        mongodb.close();
+                        if(err){
+                            return callback(err);
+                        }
+                        callback(null, todo[0]);//成功！err 为 null，并返回存储后的用户文档
+                    })
+                }else{
+                    collection.insert(todo, function(err, todo){
+                        mongodb.close();
+                        if(err){
+                            return callback(err);
+                        }
+                        callback(null, todo[0]);//成功！err 为 null，并返回存储后的用户文档
+                    })
+                }
+
             })
+
+
+
         })
     });
 };
-Todo.prototype.get = function(name, callback){
-    /*TodoModel.find({'show':true}, function(err, todos){
-      if(err){
-          return callback(err);
-      }
-      callback(null, todos);
-    })*/
+Todo.get = function(name, callback){
     mongodb.open(function(err, db){
         if(err){
             return callback(err)

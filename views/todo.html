@@ -33,16 +33,18 @@
 <div class="main">
     <nav class="sidebar">
         <!--<a href="/" class="">主页</a>-->
-        <%if (todos.username){%>
-        <a href="ucenter"><%= todos.username%></a>
-        <a href="logout" class="logout">登出</a>
+        <%if (todos) {%>
+            <%if (todos.username){%>
+            <a href="ucenter"><%= todos.username%></a>
+            <a href="logout" class="logout">登出</a>
+            <%}%>
         <%}%>
     </nav>
     <div class="content">
         <ul id="contentUl" class="am-list am-list-static am-list-border am-list-striped">
-            <% allContent.forEach(function(todo, index){ %>
-            <li ><%= todo.content %><button onclick="deleteContent('<%= todo.id %>', this)" style="float:right;" type="button" class="am-close">&times;</button></li>
-            <% })
+            <%if (todos){for(var i = 0;i < todos.length; i++){%>
+            <li><%= todos[i].content %><button onclick="deleteContent('', this)" style="float:right;" type="button" class="am-close">&times;</button></li>
+            <%}}%>
         </ul>
         <div class="am-u-lg-6">
             <div class="am-input-group">

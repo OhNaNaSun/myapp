@@ -5,11 +5,10 @@ var User = require("../models/user.js");
 var router = express.Router();//这个和app.js的router啥区别？app.use('/',routes)
 
 router.get('/addTodo', function(req, res){
-    //console.log(req.query);//{content:"test123"}
-    var content = req.query.content;//test123
     var username = req.session.user.username;
-    var todo = new Todo(username, content, true);
-    todo.save(function(err, todoBack){
+    var content = req.query.content;//test123
+    var todo = new Todo(username, true);
+    todo.save(content, function(err, todoBack){
         if(err){
             res.writeHead(500)
         }else{
@@ -17,7 +16,7 @@ router.get('/addTodo', function(req, res){
         }
         res.write(todoBack.id);
         res.end();
-    })
+    });
 });
 router.get('/delete', function(req, res){
     //console.log(req.query);//{id:...}传过来的
@@ -33,7 +32,6 @@ router.get('/delete', function(req, res){
     })
 });
 router.get('/', function(req, res){
-    console.log(req.flash('success'));//[]
     res.render('index', {
         title: '主页',
         user: req.session.user,
@@ -74,11 +72,10 @@ router.get('/logout', function(req, res){
 });
 router.get('/todo', function(req, res){
     //Todo
-    var todo = new Todo();
-    //res.render('todo', {title: '事项', todos: todos});
-    todo.getAll(function(err, todos){
+    Todo.get(req.session.user.username, function(err, todos){
         if(err){
         }
+        console.log(todos);
         res.render('todo', {title: '事项', todos: todos});
     })
 });
@@ -140,7 +137,7 @@ router.post('/reg', function(req, res){
             //user user????
              if(err){
                  req.flash('error', err);
-                 return res.redirect('/reg');//注册失败返回主册页
+                 return res.redirect('/reg');//注册失败返回注册页
              }
              req.session.user = user;
              req.flash('success', '注册成功！');
@@ -148,7 +145,7 @@ router.post('/reg', function(req, res){
         });
     })
 });
-router.post('/ucenter', function(req, res){
+router.post('/todo', function(req, res){
     var query_doc = {username: req.body.username, password: req.body.password};
     (function(){
         User.userModel.count(query_doc, function(err, doc){
