@@ -7,15 +7,23 @@ var router = express.Router();//这个和app.js的router啥区别？app.use('/',
 router.get('/addTodo', function(req, res){
     var username = req.session.user.username;
     var content = req.query.content;//test123
-    var todo = new Todo(username, true);
-    todo.save(content, function(err, todoBack){
-        if(err){
+    //var todo = new Todo(username, true);
+    todo.save(username, content, function(err, todoBack){
+
+        Todo.get(username, function(err, todos){
+            if(err){
+            }
+            console.log(todos);
+            res.render('todo', {title: '事项', todos: todos});
+        })
+
+        /*if(err){
             res.writeHead(500)
         }else{
             res.writeHead(200)
         }
         res.write(todoBack.id);
-        res.end();
+        res.end();*/
     });
 });
 router.get('/delete', function(req, res){

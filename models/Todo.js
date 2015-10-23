@@ -14,7 +14,7 @@ function Todo(username, contents, show){
     this.username = username;
     this.show = show;
 }
-Todo.prototype.save = function(content, callback){
+Todo.prototype.save = function(username, content, callback){
     var todo = {
         username: this.username,
         contents: this.contents,
