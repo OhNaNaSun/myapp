@@ -1,6 +1,6 @@
 var mongodb = require('./db.js');
-/*
-var Schema = mongodb.mongoose.Schema;
+/**
+ * var Schema = mongodb.mongoose.Schema;
 var userSchema = new Schema({
     username: String,
     password: String
@@ -8,6 +8,13 @@ var userSchema = new Schema({
 //将该Schema发布为Model
 var userModel = mongodb.mongoose.model("User", userSchema);//Model:由Schema发布生成的模型，具有抽象属性和行为的数据库操作对
 */
+/**
+ *
+ * @param username
+ * @param password
+ * @param email
+ * @constructor
+ */
 
 function User(username, password, email){
     this.username = username;

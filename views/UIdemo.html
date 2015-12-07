@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javaScript</title>
+    <style>
+        div{
+            height:800px;
+        }
+        .imgBoxWrapper{
+            position:relative;
+            height: 280px;
+            width:100%;
+        }
+        .imgBoxWrapper ul{
+            list-style: none;
+        }
+        .imgBoxWrapper ul li{
+            position:absolute;
+            left: 50%;/*移动到容器的50%*/
+            margin-left: -1280px;
+            top: 0;
+        }
+    </style>
+    <script src="http://the5fireblog.b0.upaiyun.com/staticfile/jquery-1.10.2.js"></script>
+</head>
+<body>
+
+<div class="imgBoxWrapper">
+    <ul id="imgBoxDiv">
+        <li><a><img src="http://source.qunar.com/site/images/wap/intercar/ad/web/banner_012.jpg"/></a></li>
+        <li><a><img src="http://source.qunar.com/site/images/wap/intercar/ad/web/banner_013.jpg"/></a></li>
+        <li><a><img src="http://source.qunar.com/site/images/wap/intercar/ad/web/banner_015.jpg"/></a></li>
+    </ul>
+</div>
+<script type="text/javascript" src="javascripts/UIdemo.js"></script>
+</body>
+</html>

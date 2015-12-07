@@ -7,7 +7,6 @@ var router = express.Router();//这个和app.js的router啥区别？app.use('/',
 router.get('/addTodo', function(req, res){
     var username = req.session.user.username;
     var content = req.query.content;//test123
-    //var todo = new Todo(username, true);
     todo.save(username, content, function(err, todoBack){
 
         Todo.get(username, function(err, todos){
@@ -16,14 +15,6 @@ router.get('/addTodo', function(req, res){
             console.log(todos);
             res.render('todo', {title: '事项', todos: todos});
         })
-
-        /*if(err){
-            res.writeHead(500)
-        }else{
-            res.writeHead(200)
-        }
-        res.write(todoBack.id);
-        res.end();*/
     });
 });
 router.get('/delete', function(req, res){
@@ -46,6 +37,9 @@ router.get('/', function(req, res){
         success: req.flash('success').toString(),
         error: req.flash('error').toString()
     });
+});
+router.get('/UIdemo', function(req, res){
+    res.render('UIdemo');
 });
 //如果是已登录状态，则返回前一页
 function checkLogin(req, res, next){
