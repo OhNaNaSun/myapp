@@ -46,7 +46,6 @@ CycleImg.prototype = {
         '<% } %>'+
             '',
     init : function(data,defaultImg){
-
         var self = this;
         self.data = data;
         self.defaultImg = defaultImg;
@@ -69,6 +68,8 @@ CycleImg.prototype = {
     },
     addSmallPicToDiv : function(dataArr,defaultImg){
         var self = this;
+        console.log(dataArr);
+        console.log(self.tplHtml(self.imgTpl,{defaultImg:defaultImg,dataArr:dataArr}));
         $('#imgBoxDiv').html(self.tplHtml(self.imgTpl,{defaultImg:defaultImg,dataArr:dataArr}));
         var len = dataArr.length;
 
@@ -194,12 +195,11 @@ CycleImg.prototype = {
     }
 };
 
-if(typeof module.exports !== "undefined") {
-    module.exports.CycleImg = CycleImg;
+if(typeof exports !== "undefined") {
+    exports.CycleImg = CycleImg;
 } else {
     window["CycleImg"] = CycleImg;
 }
-    module.exports = CycleImg;
 })();
 
 

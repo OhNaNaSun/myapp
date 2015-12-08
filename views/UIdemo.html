@@ -21,6 +21,9 @@
             margin-left: -1280px;
             top: 0;
         }
+        .current-img{
+            display: list-item;
+        }
     </style>
     <script src="http://the5fireblog.b0.upaiyun.com/staticfile/jquery-1.10.2.js"></script>
 </head>
@@ -28,11 +31,67 @@
 
 <div class="imgBoxWrapper">
     <ul id="imgBoxDiv">
-        <li><a><img src="http://source.qunar.com/site/images/wap/intercar/ad/web/banner_012.jpg"/></a></li>
-        <li><a><img src="http://source.qunar.com/site/images/wap/intercar/ad/web/banner_013.jpg"/></a></li>
-        <li><a><img src="http://source.qunar.com/site/images/wap/intercar/ad/web/banner_015.jpg"/></a></li>
+        <li class="divClass"></li>
+        <li class="divClass"></li>
+        <li class="divClass"></li>
     </ul>
 </div>
-<script type="text/javascript" src="javascripts/UIdemo.js"></script>
+<script type="text/javascript" src="javascripts/components/cycleImg.js"></script>
+<script>
+    var cyc = new CycleImg([
+                 {
+                     "name":"pic1" ,
+                     "url" : "aaa",
+                     "small":"./img/small1.jpg",
+                     "imgUrl":"http://source.qunar.com/site/images/wap/intercar/ad/web/banner_012.jpg"
+                 },
+                 {
+                     "name":"pic2" ,
+                     "url" : "aaa",
+                     "small":"./img/small2.jpg",
+                     "imgUrl":"http://source.qunar.com/site/images/wap/intercar/ad/web/banner_013.jpg"
+                 },
+                 {
+                     "name":"pic3" ,
+                     "url" : "aaa",
+                     "small":"./img/small3.jpg",
+                     "imgUrl":"http://source.qunar.com/site/images/wap/intercar/ad/web/banner_015.jpg"
+                 }
+             ]);
+    console.log(cyc);
+    var arr=[2,3,6];
+    function dropArr(arr){
+        var newArray=[];
+        for(var i = 0;i<arr.length;i++){
+            if(newArray.indexOf(arr[i]) === -1){
+                newArray.push(arr[i]);
+            }
+        }
+        return newArray;
+    }
+    function maxArray(arr){
+        var map={};
+        for(var i=0; i<arr.length;i++){
+            map[arr[i]]? map[arr[i]]+= 1: map[arr[i]] =1;
+        }
+        var max = 0;
+        var maxItem=[];
+        for(var i in map){
+            if(map[i] >= max){
+                if(map[i] === max) maxItem.push(i);
+                max = map[i];
+            }
+        }
+        return maxItem;
+    }
+    function addThoud(str){
+        var arr = [];
+        for(var i=str.length;i>=0;i-=3){
+            arr.unshift(str.substring(i,i-3));
+        }
+        console.log(arr);
+        return arr.join(",");
+    }
+</script>
 </body>
 </html>

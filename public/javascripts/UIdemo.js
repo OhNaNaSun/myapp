@@ -1,1 +1,3 @@
-var cycleImg = require('components/cycleImg.js');
+define("components/cycleImg",function(cycleImg){
+    console.log(cycleImg);
+})
