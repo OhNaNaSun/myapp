@@ -3,7 +3,6 @@ var crypto = require('crypto');
 var Todo = require("../models/Todo.js");
 var User = require("../models/user.js");
 var router = express.Router();//这个和app.js的router啥区别？app.use('/',routes)
-
 router.get('/addTodo', function(req, res){
     var username = req.session.user.username;
     var content = req.query.content;//test123
@@ -40,6 +39,9 @@ router.get('/', function(req, res){
 });
 router.get('/UIdemo', function(req, res){
     res.render('UIdemo');
+});
+router.get('/DOM', function(req, res){
+    res.render('DOM');
 });
 //如果是已登录状态，则返回前一页
 function checkLogin(req, res, next){

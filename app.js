@@ -14,7 +14,6 @@ var ejs = require('ejs');
 var users = require('./routes/users');
 
 var app = express();//创建一个express应用程序
-
 app.engine('html', ejs.__express);//注册模板引擎的callback来处理扩展名为ext的文件
 app.set('view engine', 'html');//将设置项name的值设置为value
 //sjr
