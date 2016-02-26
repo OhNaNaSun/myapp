@@ -1,5 +1,10 @@
-copy from http://blog.csdn.net/yangfanacc/article/details/43386465
 
+第一个node项目：
+打算想到什么功能做什么功能。
+目前只实现了注册，登录，退出，发表文章。&&还有bug没来得及修复。。
+
+参考：
+http://blog.csdn.net/yangfanacc/article/details/43386465
 http://blog.csdn.net/yangfanacc/article/details/43386465
 http://expressjs.com/zh/starter/generator.html
 http://www.cnblogs.com/ae6623/p/4433048.html
