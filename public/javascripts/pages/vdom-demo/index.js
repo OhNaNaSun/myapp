@@ -16,10 +16,11 @@ require(["diff", "velement", "patch"], function(diff, VElement, patch){
     ]);
 
     var patches = diff(vdom, newVdom);
+    console.log(patches);
     /*var patches = {
         1:{type:REPLACE,node:newNode}, //h1节点变成h5
         5:{type:REORDER,moves:changObj} //ul新增了子节点li
     }*/
-    console.log(patches);
     patch(rootnode, patches);
+    //console.log(rootnode);
 })

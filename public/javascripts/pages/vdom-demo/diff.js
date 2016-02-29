@@ -23,6 +23,7 @@ define(["patch", "list-diff2"], function(patch, listDiff){
                 })
             }
         }else if(oldNode.tagName === newNode.tagName && oldNode.key === newNode.key){
+            console.log(222);
             //节点类型相同
             //比较节点的属性是否相同
             var propsPatches = diffProps(oldNode, newNode);//{id:undefined,class:sss}
@@ -36,10 +37,13 @@ define(["patch", "list-diff2"], function(patch, listDiff){
             diffChildren(oldNode.children, newNode.children, index, patches, currentPatch);
         }else{
             //节点的类型不同，直接替换
+            console.log(newNode);
             currentPatch.push({type: patch.REPLACE, node: newNode})
         }
+        //console.log(currentPatch);
         if (currentPatch.length) {
             patches[index] = currentPatch;
+            console.log(patches);
         }
     }
     function diffProps(oldNode, newNode){
@@ -57,7 +61,7 @@ define(["patch", "list-diff2"], function(patch, listDiff){
         }
         for(key in newProps){
             value = newProps[key];
-            if(!oldNode.hasOwnProperty(key)){
+            if(!oldProps.hasOwnProperty(key)){
                 count++;
                 propsPatches[key] = value;
             }
@@ -65,14 +69,16 @@ define(["patch", "list-diff2"], function(patch, listDiff){
         if(count === 0){
             return null;
         }
+
         return propsPatches;
     }
 
     function diffChildren(oldChildren, newChildren, index, patches, currentPatch){
         var diffs = listDiff(oldChildren, newChildren, 'key');
+        console.log(diffs);
         newChildren = diffs.children;
 
-        if(diffs.move.length){
+        if(diffs.moves.length){
             var reorderPatch = {
                 type: patch.REORDER,
                 moves: diffs.moves
@@ -82,12 +88,14 @@ define(["patch", "list-diff2"], function(patch, listDiff){
 
         var leftNode = null;
         var currentNodeIndex = index;
+
         oldChildren.forEach(function(child, i){
             var newChild = newChildren[i];
-            currenNodeIndex = (leftNode  && leftNode.count) ? currentNodeIndex + leftNode.count + 1 : currentNode + 1;
+            console.log(leftNode  && leftNode.count);
+            currenNodeIndex = (leftNode  && leftNode.count) ? (currentNodeIndex + leftNode.count + 1) : (currentNodeIndex + 1);
             dfsWalk(child, newChild, currentNodeIndex, patches);
             leftNode = child;
-        })
+        });
     }
     return diff;
 })
