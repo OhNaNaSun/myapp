@@ -2,6 +2,7 @@ var express = require('express');
 var crypto = require('crypto');
 var Todo = require("../models/Todo.js");
 var User = require("../models/user.js");
+var dataObj = require("../models/data.js");
 var router = express.Router();//这个和app.js的router啥区别？app.use('/',routes)
 router.get('/addTodo', function(req, res){
     var username = req.session.user.username;
@@ -29,6 +30,9 @@ router.get('/delete', function(req, res){
         res.end();
     })
 });
+router.get('/data', function(req, res){
+    res.jsonp(dataObj)
+})
 router.get('/', function(req, res){
     res.render('index', {
         title: '主页',
