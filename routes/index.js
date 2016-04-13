@@ -3,6 +3,7 @@ var crypto = require('crypto');
 var Todo = require("../models/Todo.js");
 var User = require("../models/user.js");
 var dataObj = require("../models/data.js");
+var detailDataObj = require("../models/detailData.js");
 var router = express.Router();//这个和app.js的router啥区别？app.use('/',routes)
 router.get('/addTodo', function(req, res){
     var username = req.session.user.username;
@@ -33,6 +34,9 @@ router.get('/delete', function(req, res){
 router.get('/data', function(req, res){
     res.jsonp(dataObj)
 })
+router.get('/detailData', function(req, res){
+    res.jsonp(detailDataObj)
+})
 router.get('/', function(req, res){
     res.render('index', {
         title: '主页',
@@ -40,6 +44,10 @@ router.get('/', function(req, res){
         success: req.flash('success').toString(),
         error: req.flash('error').toString()
     });
+});
+//测试slide组件：hammer.js
+router.get('/slide', function(req, res){
+    res.render('slide');
 });
 router.get('/UIdemo', function(req, res){
     res.render('UIdemo');
