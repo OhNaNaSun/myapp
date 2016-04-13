@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用hammer.js实现下拉刷新</title>
+    <style>
+        #container{
+            border: 1px solid #000000;
+        }
+        #pull-down{
+            background-color: #00afbc;
+        }
+        #pulldown,#pullup{
+            display: none;
+        }
+    </style>
+    <script src="javascripts/lib/zepto-1.1.4.js"></script>
+    <script src="javascripts/components/hammer.min.js"></script>
+</head>
+<body>
+    <div class="page" id="container">
+        <p id="pulldown">释放刷新</p>
+        <p id="pullup">刷新ing</p>
+        <h3>测试slide组件：hammer.js</h3>
+        <ul>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+        </ul>
+    </div>
+    <div id="pull-down">Pull down to Refresh</div>
+    <div id="result"></div>
+</body>
+<script>
+
+    window.addEventListener("load", function () {
+        var container = document.getElementById("container");
+        new Hammer.Manager(container, {
+            recognizers: [
+                [Hammer.Pan, {
+                    direction: Hammer.DIRECTION_DOWN
+                }]
+            ]
+        }).on("pan", function (e) {
+//                    var marginTop = Math.min(Math.max(e.deltaY, 0), 100);
+                    $("#pulldown").show();
+                    $("#pullup").hide();
+//                    container.style.marginTop = marginTop + "px";
+                }).on("panend", function (e) {
+//                    container.style.marginTop = null;
+                    $("#pulldown").hide();
+                    $("#pullup").show();
+                    setTimeout(function(){
+                        $("#pulldown").hide();
+                        $("#pullup").hide();
+                    },1000)
+                });
+    });
+</script>
+</html>
