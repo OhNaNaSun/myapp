@@ -4,6 +4,7 @@ var Todo = require("../models/Todo.js");
 var User = require("../models/user.js");
 var dataObj = require("../models/data.js");
 var detailDataObj = require("../models/detailData.js");
+var discoveryDataObj = require("../models/discoveryData.js");
 var router = express.Router();//这个和app.js的router啥区别？app.use('/',routes)
 router.get('/addTodo', function(req, res){
     var username = req.session.user.username;
@@ -35,7 +36,14 @@ router.get('/data', function(req, res){
     res.jsonp(dataObj)
 })
 router.get('/detailData', function(req, res){
-    res.jsonp(detailDataObj)
+        res.jsonp(detailDataObj);
+})
+router.get('/discoveryData', function(req, res){
+    if(req.module === "sell"){
+        res.jsonp(discoveryDataObj.sell);        
+    }else{
+        res.jsonp(discoveryDataObj.obj);      
+    }    
 })
 router.get('/', function(req, res){
     res.render('index', {
@@ -44,6 +52,14 @@ router.get('/', function(req, res){
         success: req.flash('success').toString(),
         error: req.flash('error').toString()
     });
+});
+//测试iframe
+router.get('/iframe', function(req, res){
+    res.render('iframe');
+});
+//测试iframe
+router.get('/iframeinner', function(req, res){
+    res.render('iframeinner');
 });
 //测试slide组件：hammer.js
 router.get('/slide', function(req, res){

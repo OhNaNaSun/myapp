@@ -22,7 +22,7 @@
         <p id="pulldown">释放刷新</p>
         <p id="pullup">刷新ing</p>
         <h3>测试slide组件：hammer.js</h3>
-        <ul>
+        <!--<ul>
             <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
             <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
             <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
@@ -37,13 +37,28 @@
             <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
             <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
             <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
-        </ul>
+        </ul>-->
     </div>
     <div id="pull-down">Pull down to Refresh</div>
     <div id="result"></div>
 </body>
 <script>
+    $("#container").load("http://www.baidu.com", function(){
+        console.log("成功");
+    })
+    /*$.ajax({
+        url: "http://www.baidu.com",
+        type: 'GET',
+        dataType: 'jsonp',
+//        data: sendParams,
+        crossDomain: true,
+        jsonpCallback: 'callback',
+        success: function(res) {
 
+        },
+        error: function(a,b,c) {
+        }
+    });*/
     window.addEventListener("load", function () {
         var container = document.getElementById("container");
         new Hammer.Manager(container, {

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>iframe</title>
+</head>
+<body>
+<iframe id="myFrame" src="http://chechedev.qunar.com:9028/support/discovery/list#1" frameborder="10">
+
+</iframe>
+<script>
+//    document.domain = ".company.com";
+//window.open("http://chechedev.qunar.com:9028/support/discovery/list#1");
+/*window.onload = function(){
+    console.log(11);
+    var data = document.getElementById('myFrame').contentWindow.name;
+    console.log(data);
+}*/
+var iframe = document.getElementById('myFrame').contentWindow;
+var domain = "http://chechedev.qunar.com:9028";
+//var popup = window.open(domain + '/support/discovery/list', 'myWindow');
+//iframe.postMessage('Hello World!', domain);
+//发送消息
+setInterval(function(){
+    var message = 'Hello!  The time is: ' + (new Date().getTime());
+    console.log('blog.local:  sending message:  ' + message);
+    //send the message and target URI
+    iframe.postMessage(message,domain);
+},6000);
+</script>
+</body>
+</html>

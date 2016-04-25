@@ -4,6 +4,19 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+//websocket
+var WebSocketServer = require('ws').Server;
+var wss = new WebSocketServer({ port: 8080 });
+
+wss.on('connection', function connection(ws) {
+  ws.on('message', function incoming(message) {
+    console.log('received: %s', message);
+  });
+
+  setTimeout(function(){
+    ws.send('4s 之后 了 发送 something');
+  },4000) 
+});
 
 var routes = require('./routes/index');
 // var routes = require('./routes/data');
