@@ -39,7 +39,9 @@ router.get('/detailData', function(req, res){
         res.jsonp(detailDataObj);
 })
 router.get('/discoveryData', function(req, res){
-    if(req.module === "sell"){
+    // console.log(req.query.module);
+    if(req.query.module === "sell"){
+        console.log(1111);
         res.jsonp(discoveryDataObj.sell);        
     }else{
         res.jsonp(discoveryDataObj.obj);      
