@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>用hammer.js实现下拉刷新</title>
     <style>
+        .page{
+            font-size: 2.3rem;
+        }
         #container{
             border: 1px solid #000000;
         }
@@ -12,6 +15,13 @@
         }
         #pulldown,#pullup{
             display: none;
+        }
+        #scrollTopX{
+            position:fixed;
+            left: 0;
+            bottom:0;
+            font-size: 2.3rem;
+            background-color: #aeaeae;
         }
     </style>
     <script src="javascripts/lib/zepto-1.1.4.js"></script>
@@ -22,7 +32,7 @@
         <p id="pulldown">释放刷新</p>
         <p id="pullup">刷新ing</p>
         <h3>测试slide组件：hammer.js</h3>
-        <!--<ul>
+        <ul>
             <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
             <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
             <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
@@ -37,15 +47,76 @@
             <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
             <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
             <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
-        </ul>-->
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+            <li>会往回想。思潮一直飞回去，飞回去，去到老远老早的悲欢离合，</li>
+        </ul>
+
     </div>
     <div id="pull-down">Pull down to Refresh</div>
     <div id="result"></div>
+    <div id="scrollTopX"></div>
+
 </body>
 <script>
-    $("#container").load("http://www.baidu.com", function(){
+    //demo:手机上滑动停止 jQuery scrollStop
+    (function(){
+        function loadScript(url, callback){
+            var script = document.createElement ("script")
+            script.type = "text/javascript";
+            if (script.readyState){ //IE
+                script.onreadystatechange = function(){
+                    if (script.readyState == "loaded" || script.readyState == "complete"){
+                        script.onreadystatechange = null;
+                        if(callback) callback();
+                    }
+                };
+            } else { //Others
+                script.onload = function(){
+                    if(callback) callback();
+                };
+            }
+            script.src = url;
+            document.getElementsByTagName("head")[0].appendChild(script);//即插即执行
+        }
+        //一：使用jquerymobile 的 scrollStop事件
+        loadScript("http://code.jquery.com/jquery-1.11.1.min.js", function(){
+            loadScript("http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js", function(){
+                $(document.body).on("scrollstop", function(){
+                    $("#scrollTopX").html("滚动停止时，滚动的距离scrolltop为： " + $(window).scrollTop())
+                })
+            });
+        });
+
+        //二：使用zepto 的 scroll事件 及 函数节流
+
+        /*var $win = $(window);
+        var timer;
+        $win.on("scroll",function(){
+            if(timer) clearTimeout(timer)
+            timer = setTimeout(function(){
+                $("#scrollTopX").html("滚动停止时，滚动的距离scrolltop为： " + $(window).scrollTop())
+            },200)
+        })*/
+
+    })()
+
+</script>
+<script>
+    /*$("#container").load("http://www.baidu.com", function(){
         console.log("成功");
-    })
+    })*/
     /*$.ajax({
         url: "http://www.baidu.com",
         type: 'GET',
@@ -59,6 +130,8 @@
         error: function(a,b,c) {
         }
     });*/
+
+    //下拉刷新
     window.addEventListener("load", function () {
         var container = document.getElementById("container");
         new Hammer.Manager(container, {
