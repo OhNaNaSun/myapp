@@ -56,9 +56,13 @@
     <input type="file" id="take-picture" accept="image/*">
     <img src="" alt="" id="show-picture"/>
 </div>
+<div>delay 1s 的 timer:<span id="countDown1"></span></div>
+<div>delay 1s 的 timer:<span id="countDown2"></span></div>
+<div>delay 2s 的 timer:<span id="countDown3"></span></div>
 <script>
-    //获得图片文件，设备拍照
+
     (function () {
+        //获得图片文件，设备拍照
         var takePicture = document.querySelector("#take-picture"),
                 showPicture = document.querySelector("#show-picture");
 
@@ -103,15 +107,17 @@
                 }
             };
         }
+
     })();
 
 </script>
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/amazeui.min.js"></script>
+<script src="javascripts/components/countDown.js"></script>
 <script>
     //websocket
-    var onOpen = function() {
-//                console.log("Socket opened.");
+            var onOpen = function() {
+//              console.log("Socket opened.");
                 socket.send("Hi, Server!");
             },
             onClose = function() {
@@ -135,6 +141,7 @@
 			socket.onclose = onClose;
 			socket.onerror = onError;
 			socket.onmessage = onMessage;
+
 </script>
 </body>
 </html>
