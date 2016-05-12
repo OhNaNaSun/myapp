@@ -61,7 +61,7 @@
 })();
 
 
-
+//最优版
 (function(){
 	function timer(delay){
 		this._queue = [];
@@ -73,6 +73,7 @@
 		_createTimer: function(delay){
 			var self = this;
 			var first = true;
+			this.tag = 0;
 			(function(){
 				var s = new Date();
 				for(var i = 0; i < self._queue.length; i++){
@@ -92,7 +93,8 @@
 			return this._queue.length - 1;
 		},
 		remove: function(index){
-			this._queue.splice(index, 1);//去掉原数组中的某个元素
+			this._queue.splice(index - this.tag, 1);//去掉原数组中的某个元素
+			this.tag++;
 			if(!this._queue.length){
 				this.stop = true;
 			}
@@ -115,7 +117,7 @@
 	}
 
 	//CountDown
-	var delayTime = 1000;
+	//var delayTime = 1000;
 	var msTimePool = new TimePool();
 	//var msInterval = msTimePool.getTimer(delayTime);
 	function CountDown(config){
@@ -214,15 +216,13 @@
 		}
 	});
 	new CountDown({
-		fixNow: 4*1000,
-		fixNowDate: false,
-		endTime: now + 8*60*1000,
+		endTime: now + 1*20*1000,
 		render: function(outString){
 			$("#countDown2").html(outString)
 		}
 	});
 	new CountDown({
-		endTime: now + 5*60*1000,
+		endTime: now + 1*25*1000,
 		delayTime: 2000,
 		render: function(outString){
 			$("#countDown3").html(outString)
