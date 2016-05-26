@@ -1,4 +1,4 @@
-var express = require('express');
+﻿var express = require('express');
 var crypto = require('crypto');
 var Todo = require("../models/Todo.js");
 var User = require("../models/user.js");
@@ -66,6 +66,10 @@ router.get('/iframeinner', function(req, res){
 //测试slide组件：hammer.js
 router.get('/slide', function(req, res){
     res.render('slide');
+});
+//测试动画
+router.get('/animate', function(req, res){
+    res.render('animate');
 });
 router.get('/UIdemo', function(req, res){
     res.render('UIdemo');

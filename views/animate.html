@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        body{
+            position:relative;
+        }
+        #ele{
+            position:absolute;
+            left: 0;
+            top:0;
+            height: 40px;
+            width: 40px;
+            background-color:grey;
+        }
+    </style>
+
+</head>
+<body>
+<div id="ele">
+
+</div>
+<script>
+    var element = document.getElementById("ele");
+    var startingTop = 0;
+     /*setInterval(function() {
+     element.style.top = (startingTop += 1) + "px";
+     console.log(element.style.top);
+     }, 16);*/
+   /* function tick () {
+        element.style.top = (startingTop += 1) + "px";
+        window.requestAnimationFrame(tick);
+
+    }
+    window.requestAnimationFrame(tick);*/
+
+   /* window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+    var start = null;
+    var d = document.getElementById('ele');
+    function step(timestamp) {
+        if (start === null) start = timestamp;
+        var progress = timestamp - start;
+        d.style.left = Math.min(progress/10, 200) + "px";
+        if (progress < 2000) {
+            console.log(progress);
+            requestAnimationFrame(step);
+        }
+    }
+    requestAnimationFrame(step);*/
+
+</script>
+</body>
+</html>
