@@ -5,6 +5,7 @@ var User = require("../models/user.js");
 var dataObj = require("../models/data.js");
 var detailDataObj = require("../models/detailData.js");
 var discoveryDataObj = require("../models/discoveryData.js");
+var sellDataObj = require("../models/sellData.js");
 var router = express.Router();//这个和app.js的router啥区别？app.use('/',routes)
 router.get('/addTodo', function(req, res){
     var username = req.session.user.username;
@@ -38,7 +39,12 @@ router.get('/data', function(req, res){
 router.get('/detailData', function(req, res){
         res.jsonp(detailDataObj);
 })
-router.get('/discoveryData', function(req, res){
+//CORS解决跨域
+/*router.post('/detailData', function(req, res){
+ res.setHeader('Access-Control-Allow-Origin', 'http://chechedev.qunar.com:9028');
+ res.send(detailDataObj);
+ })*/
+router.get('/rest/api', function(req, res){
     // console.log(req.query.module);
     if(req.query.module === "sell"){
         console.log(1111);
@@ -46,6 +52,10 @@ router.get('/discoveryData', function(req, res){
     }else{
         res.jsonp(discoveryDataObj.obj);      
     }    
+})
+router.get('/rest/dp', function(req, res){
+	// console.log(req.query.module);
+	res.jsonp(sellDataObj);
 })
 router.get('/', function(req, res){
     res.render('index', {
